@@ -2,6 +2,8 @@
 
 A modular, customizable, and accessible React component for rendering a realistic piano keyboard. Supports configurable key range, pressed key color, and full keyboard control. Suitable for use in music education, MIDI tools, and interactive web apps.
 
+![Screenshot](screenshot.png)
+
 ## Features
 - Realistic piano keyboard layout
 - Configurable key range
