@@ -20,9 +20,8 @@ npm install react-piano-keyboard
 ## Usage
 
 ```jsx
-import React from 'react';
-import Keyboard from './Keyboard';
-import './Keyboard.css';
+import Keyboard from '../../src/Keyboard';
+import '../../src/Keyboard.css';
 
 function App() {
 
