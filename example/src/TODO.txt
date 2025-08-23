@@ -1,1 +1,0 @@
-Remove duplicated Key.js, Keyboard.js and Keyboard.css when component has been published!
