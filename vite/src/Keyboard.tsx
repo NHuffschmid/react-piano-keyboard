@@ -1,10 +1,4 @@
-import {
-  useState,
-  useImperativeHandle,
-  forwardRef,
-  useRef,
-  useEffect
-} from 'react';
+import React, { useState, useImperativeHandle, forwardRef, useRef, useEffect } from 'react';
 import './Keyboard.css';
 import Key from './Key';
 
