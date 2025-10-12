@@ -5,7 +5,8 @@
   align-items: flex-end;
   justify-content: flex-start;
   color: white;
-  overflow-x: auto;
+  overflow-x: hidden;
+  overflow-y: hidden;
   white-space: nowrap;
 }
 

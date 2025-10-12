@@ -83,20 +83,6 @@ const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
     const keyWidth = widgetWidth / whiteKeyCount;
     const widgetHeight = keyWidth * 6.5;
 
-    const whiteKeys = whiteNotes.map(note => (
-      <Key
-        key={note}
-        note={note}
-        isPressed={pressed[note]}
-        setPressed={(state: boolean) => {
-          setKeyPressed(note, state);
-          if (state && onKeyDown) onKeyDown(note);
-          if (!state && onKeyUp) onKeyUp(note);
-        }}
-        style={{ width: keyWidth, height: widgetHeight }}
-        pressedColor={pressedColor}
-      />
-    ));
 
     const blackKeyOffsets: Record<number, number> = {
       1: -0.15,
@@ -106,37 +92,57 @@ const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
       10: 0.10
     };
 
-    const blackKeys = blackNotes.map(note => {
-      let leftWhiteIdx = -1;
-      for (let i = 0; i < whiteNotes.length; i++) {
-        if (whiteNotes[i] < note) leftWhiteIdx = i;
-        if (whiteNotes[i] > note) break;
+    const whiteKeys = whiteNotes.map((note, idx) => {
+      const nextNote = note + 1;
+      const noteInOctave = nextNote % 12;
+      let blackKey = null;
+      if ([1,3,6,8,10].includes(noteInOctave) && blackNotes.includes(nextNote)) {
+        const offset = blackKeyOffsets[noteInOctave] ?? 0;
+        blackKey = (
+          <Key
+            key={nextNote}
+            note={nextNote}
+            isPressed={pressed[nextNote]}
+            setPressed={(state: boolean) => {
+              setKeyPressed(nextNote, state);
+              if (state && onKeyDown) onKeyDown(nextNote);
+              if (!state && onKeyUp) onKeyUp(nextNote);
+            }}
+            style={{
+              position: 'absolute',
+              left: keyWidth * (1 + offset - 0.3),
+              width: keyWidth * 0.6,
+              height: widgetHeight * 0.65,
+              zIndex: 2
+            }}
+            pressedColor={pressedColor}
+          />
+        );
       }
-      const rightWhiteIdx = leftWhiteIdx + 1;
-      if (leftWhiteIdx === -1 || rightWhiteIdx >= whiteNotes.length) return null;
-
-      const noteInOctave = note % 12;
-      const offset = blackKeyOffsets[noteInOctave] ?? 0;
-      let left = (leftWhiteIdx + 1) * keyWidth - keyWidth * 0.25;
-      left += keyWidth * offset;
-
       return (
-        <Key
+        <div
           key={note}
-          note={note}
-          isPressed={pressed[note]}
-          setPressed={(state: boolean) => {
-            setKeyPressed(note, state);
-            if (state && onKeyDown) onKeyDown(note);
-            if (!state && onKeyUp) onKeyUp(note);
-          }}
           style={{
-            width: keyWidth * 0.6,
-            left: left,
-            height: widgetHeight * 0.65
+            position: 'relative',
+            display: 'inline-block',
+            width: keyWidth,
+            height: widgetHeight,
+            verticalAlign: 'top'
           }}
-          pressedColor={pressedColor}
-        />
+        >
+          <Key
+            note={note}
+            isPressed={pressed[note]}
+            setPressed={(state: boolean) => {
+              setKeyPressed(note, state);
+              if (state && onKeyDown) onKeyDown(note);
+              if (!state && onKeyUp) onKeyUp(note);
+            }}
+            style={{ width: '100%', height: '100%' }}
+            pressedColor={pressedColor}
+          />
+          {blackKey}
+        </div>
       );
     });
 
@@ -154,7 +160,7 @@ const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
       >
         <div
           style={{
-            display: 'flex',
+            display: 'inline-block',
             width: '100%',
             height: '100%',
             position: 'relative',
@@ -162,18 +168,6 @@ const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
           }}
         >
           {whiteKeys}
-        </div>
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            height: '65%',
-            width: '100%',
-            zIndex: 2
-          }}
-        >
-          {blackKeys}
         </div>
       </div>
     );
