@@ -13,9 +13,10 @@ A modular, customizable, and accessible React component for rendering a realisti
 
 ## Installation
 
-```sh
-npm install react-piano-keyboard
-```
+Since there is no official npm package yet, you need to copy the component locally into your project:
+
+1. Copy the files `src/Keyboard.tsx`, `src/Key.tsx` and `src/Keyboard.css` into your React project
+2. Import the component and CSS into your application
 
 ## Usage
 
@@ -59,7 +60,7 @@ A full example is provided in the `example/` directory. To run it:
 ```sh
 cd example
 npm install
-npm start
+npm run dev
 ```
 
 ## License
