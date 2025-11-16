@@ -68,3 +68,16 @@ describe('GetSkrjabinColor', () => {
     }
   });
 });
+
+
+describe('Keyboard pressedColor="Skrjabin"', () => {
+  it('uses Skrjabin color scale for pressed keys', () => {
+    const { container } = render(<Keyboard from={60} to={72} pressedColor="Skrjabin" />);
+    // Simulate pressing the C4 key (MIDI 60)
+    const whiteKey = container.querySelector('.ivory');
+    fireEvent.mouseDown(whiteKey);
+    // Check the computed background color of the pressed key
+    const bg = window.getComputedStyle(whiteKey).backgroundColor;
+    expect(bg.replace(/\s/g, '').toLowerCase()).toMatch(/rgb\(255,0,0\)|#ff0000/);
+  });
+});
