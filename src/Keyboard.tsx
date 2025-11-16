@@ -116,10 +116,9 @@ const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
 
     // Helper to determine pressedColor for a note
     const getPressedColor = (note: number) => {
-      if (pressedColor === 'Skrjabin') {
+      if (typeof pressedColor === 'string' && pressedColor.toLowerCase() === 'skrjabin') {
         return GetSkrjabinColor(note);
-      }
-      else {
+      } else {
         return pressedColor;
       }
     };
