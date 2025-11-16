@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
-import Keyboard from '../src/Keyboard';
+import Keyboard, { GetSkrjabinColor } from '../src/Keyboard';
 
 describe('Keyboard component', () => {
   it('renders without crashing', () => {
@@ -43,5 +42,29 @@ describe('Keyboard component', () => {
     expect(ref.current).toBeDefined();
     ref.current.setKeyPressed(60, 127);
     ref.current.reset();
+  });
+});
+
+
+describe('GetSkrjabinColor', () => {
+  it('returns correct Skrjabin color for each note in the octave', () => {
+    // MIDI notes 60-71 correspond to C4-B4
+    const expected = [
+      '#ff0000', // C
+      '#ce9aff', // C#
+      '#ffff00', // D
+      '#656599', // D#
+      '#e3fbff', // E
+      '#ac1c02', // F
+      '#00ccff', // F#
+      '#ff6501', // G
+      '#ff00ff', // G#
+      '#33cc33', // A
+      '#8c8a8c', // A#
+      '#0000fe'  // B/H
+    ];
+    for (let midi = 60; midi < 72; ++midi) {
+      expect(GetSkrjabinColor(midi)).toBe(expected[midi % 12]);
+    }
   });
 });
