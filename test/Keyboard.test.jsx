@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
-import Keyboard, { GetSkrjabinColor } from '../src/Keyboard';
+import Keyboard, { getSkrjabinColor } from '../src/Keyboard';
 
 describe('Keyboard component', () => {
   it('renders without crashing', () => {
@@ -46,7 +46,7 @@ describe('Keyboard component', () => {
 });
 
 
-describe('GetSkrjabinColor', () => {
+describe('getSkrjabinColor', () => {
   it('returns correct Skrjabin color for each note in the octave', () => {
     // MIDI notes 60-71 correspond to C4-B4
     const expected = [
@@ -64,7 +64,7 @@ describe('GetSkrjabinColor', () => {
       '#0000fe'  // B/H
     ];
     for (let midi = 60; midi < 72; ++midi) {
-      expect(GetSkrjabinColor(midi)).toBe(expected[midi % 12]);
+      expect(getSkrjabinColor(midi)).toBe(expected[midi % 12]);
     }
   });
 });

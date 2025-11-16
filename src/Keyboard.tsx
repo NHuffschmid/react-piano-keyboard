@@ -17,7 +17,7 @@ interface KeyboardProps {
 
 // Skrjabin's synesthetic color scale
 // (Values taken from wikipedia image)
-const skrjabinColors: string[] = [
+export const skrjabinColors: string[] = [
   '#ff0000', // C
   '#ce9aff', // C#
   '#ffff00', // D
@@ -32,7 +32,7 @@ const skrjabinColors: string[] = [
   '#0000fe'  // B/H
 ];
 
-export const GetSkrjabinColor = (note: number): string => {
+export const getSkrjabinColor = (note: number): string => {
   const noteInOctave = note % 12;
   return skrjabinColors[noteInOctave] || '#888888';
 };
@@ -117,7 +117,7 @@ const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
     // Helper to determine pressedColor for a note
     const getPressedColor = (note: number) => {
       if (typeof pressedColor === 'string' && pressedColor.toLowerCase() === 'skrjabin') {
-        return GetSkrjabinColor(note);
+        return getSkrjabinColor(note);
       } else {
         return pressedColor;
       }
