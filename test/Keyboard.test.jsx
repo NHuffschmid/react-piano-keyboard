@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
-import Keyboard from '../src/Keyboard';
+import Keyboard, { getSkrjabinColor } from '../src/Keyboard';
 
 describe('Keyboard component', () => {
   it('renders without crashing', () => {
@@ -43,5 +42,42 @@ describe('Keyboard component', () => {
     expect(ref.current).toBeDefined();
     ref.current.setKeyPressed(60, 127);
     ref.current.reset();
+  });
+});
+
+
+describe('getSkrjabinColor', () => {
+  it('returns correct Skrjabin color for each note in the octave', () => {
+    // MIDI notes 60-71 correspond to C4-B4
+    const expected = [
+      '#ff0000', // C
+      '#ce9aff', // C#
+      '#ffff00', // D
+      '#656599', // D#
+      '#e3fbff', // E
+      '#ac1c02', // F
+      '#00ccff', // F#
+      '#ff6501', // G
+      '#ff00ff', // G#
+      '#33cc33', // A
+      '#8c8a8c', // A#
+      '#0000fe'  // B/H
+    ];
+    for (let midi = 60; midi < 72; ++midi) {
+      expect(getSkrjabinColor(midi)).toBe(expected[midi % 12]);
+    }
+  });
+});
+
+
+describe('Keyboard pressedColor="Skrjabin"', () => {
+  it('uses Skrjabin color scale for pressed keys', () => {
+    const { container } = render(<Keyboard from={60} to={72} pressedColor="sKrJaBiN" />);
+    // Simulate pressing the C4 key (MIDI 60)
+    const whiteKey = container.querySelector('.ivory');
+    fireEvent.mouseDown(whiteKey);
+    // Check the computed background color of the pressed key
+    const bg = window.getComputedStyle(whiteKey).backgroundColor;
+    expect(bg.replace(/\s/g, '').toLowerCase()).toMatch(/rgb\(255,0,0\)|#ff0000/);
   });
 });

@@ -15,6 +15,28 @@ interface KeyboardProps {
   onKeyUp?: (note: number) => void;
 }
 
+// Skrjabin's synesthetic color scale
+// (Values taken from wikipedia image)
+export const skrjabinColors: string[] = [
+  '#ff0000', // C
+  '#ce9aff', // C#
+  '#ffff00', // D
+  '#656599', // D#
+  '#e3fbff', // E
+  '#ac1c02', // F
+  '#00ccff', // F#
+  '#ff6501', // G
+  '#ff00ff', // G#
+  '#33cc33', // A
+  '#8c8a8c', // A#
+  '#0000fe'  // B/H
+];
+
+export const getSkrjabinColor = (note: number): string => {
+  const noteInOctave = note % 12;
+  return skrjabinColors[noteInOctave] || '#888888';
+};
+
 const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
   ({ from = 36, to = 96, pressedColor = '#888', onKeyDown, onKeyUp }, ref) => {
     if (from < 12 || to > 120 || to <= from) {
@@ -92,11 +114,20 @@ const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
       10: 0.10
     };
 
+    // Helper to determine pressedColor for a note
+    const getPressedColor = (note: number) => {
+      if (typeof pressedColor === 'string' && pressedColor.toLowerCase() === 'skrjabin') {
+        return getSkrjabinColor(note);
+      } else {
+        return pressedColor;
+      }
+    };
+
     const whiteKeys = whiteNotes.map((note, idx) => {
       const nextNote = note + 1;
       const noteInOctave = nextNote % 12;
       let blackKey = null;
-      if ([1,3,6,8,10].includes(noteInOctave) && blackNotes.includes(nextNote)) {
+      if ([1, 3, 6, 8, 10].includes(noteInOctave) && blackNotes.includes(nextNote)) {
         const offset = blackKeyOffsets[noteInOctave] ?? 0;
         blackKey = (
           <Key
@@ -115,7 +146,7 @@ const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
               height: widgetHeight * 0.65,
               zIndex: 2
             }}
-            pressedColor={pressedColor}
+            pressedColor={getPressedColor(nextNote)}
           />
         );
       }
@@ -139,7 +170,7 @@ const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
               if (!state && onKeyUp) onKeyUp(note);
             }}
             style={{ width: '100%', height: '100%' }}
-            pressedColor={pressedColor}
+            pressedColor={getPressedColor(note)}
           />
           {blackKey}
         </div>
