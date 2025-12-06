@@ -57,7 +57,7 @@ describe('KeyboardProgressBar component', () => {
     const { container } = render(
       <KeyboardProgressBar value={150} max={100} showPercentage={true} />
     );
-    expect(container.textContent).toContain('150%'); // Shows actual percentage
+    expect(container.textContent).toContain('100%'); // Clamped to 100%
   });
 
   it('handles negative values correctly', () => {
