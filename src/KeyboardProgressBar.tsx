@@ -2,14 +2,14 @@ import React, { useMemo } from 'react';
 import Keyboard, { KeyboardRef } from './Keyboard';
 
 interface KeyboardProgressBarProps {
-  value: number;        // Aktueller Fortschritt (0-100)
-  max?: number;         // Maximum-Wert (default: 100)
-  from?: number;        // Start-Note (default: 36)
-  to?: number;          // End-Note (default: 96)
-  progressColor?: string; // Farbe für gedrückte Tasten (default: '#4CAF50')
-  showPercentage?: boolean; // Zeige Prozentanzeige (default: false)
-  className?: string;   // CSS-Klasse
-  style?: React.CSSProperties; // Inline-Styles
+  value: number;        // Current progress (0-100)
+  max?: number;         // Maximum value (default: 100)
+  from?: number;        // Start note (default: 36)
+  to?: number;          // End note (default: 96)
+  progressColor?: string; // Color for pressed keys (default: '#4CAF50')
+  showPercentage?: boolean; // Show percentage overlay (default: false)
+  className?: string;   // CSS class
+  style?: React.CSSProperties; // Inline styles
 }
 
 const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
@@ -22,25 +22,25 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
   className,
   style
 }) => {
-  // Berechne welche Tasten als gedrückt dargestellt werden sollen
+  // Calculate which keys should be displayed as pressed
   const pressedNotes = useMemo(() => {
     const notes: Set<number> = new Set();
     
-    // Sammle ALLE Tasten im Bereich (weiße und schwarze)
+    // Collect ALL keys in range (white and black)
     const allNotes: number[] = [];
     
     for (let note = from; note <= to; note++) {
       allNotes.push(note);
     }
     
-    // Berechne Fortschritt als Prozentsatz
+    // Calculate progress as percentage
     const progress = Math.max(0, Math.min(100, (value / max) * 100));
     
-    // Bestimme Anzahl der zu aktivierenden Tasten
+    // Determine number of keys to activate
     const totalKeys = allNotes.length;
     const keysToActivate = Math.round((progress / 100) * totalKeys);
     
-    // Aktiviere die ersten N Tasten (chromatisch)
+    // Activate the first N keys (chromatically)
     for (let i = 0; i < keysToActivate && i < allNotes.length; i++) {
       notes.add(allNotes[i]);
     }
@@ -48,15 +48,15 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
     return notes;
   }, [value, max, from, to]);
 
-  // Custom setKeyPressed Funktion, die den Progress-Zustand überschreibt
+  // Custom setKeyPressed function that overrides the progress state
   const keyboardRef = React.useRef<KeyboardRef>(null);
   
   React.useEffect(() => {
     if (keyboardRef.current) {
-      // Erst alle Tasten zurücksetzen
+      // First reset all keys
       keyboardRef.current.reset();
       
-      // Dann die entsprechenden Tasten "drücken"
+      // Then press the corresponding keys
       pressedNotes.forEach(note => {
         keyboardRef.current?.setKeyPressed(note, 127); // Max velocity
       });
@@ -76,7 +76,7 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
         from={from}
         to={to}
         pressedColor={progressColor}
-        // Keine Event-Handler - ProgressBar ist read-only
+        // No event handlers - ProgressBar is read-only
         onKeyDown={undefined}
         onKeyUp={undefined}
       />
