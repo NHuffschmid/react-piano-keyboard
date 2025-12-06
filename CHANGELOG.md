@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [0.9.3]
+
+### Features
+- Added KeyboardProgressBar component
+- Introduced index.ts barrel export to simplify component imports
+
 ## [0.9.2]
 
 ### Features
