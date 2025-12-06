@@ -65,7 +65,8 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
     <div 
       style={{
         ...style,
-        position: 'relative'
+        position: 'relative',
+        pointerEvents: 'none'  // Disable all mouse interactions
       }}
     >
       <Keyboard
