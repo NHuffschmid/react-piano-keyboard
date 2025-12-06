@@ -86,7 +86,7 @@ function App() {
       </div>
 
       <div>
-        <h2>Progress Bar Demo</h2>
+        <h2>Progress Bar</h2>
         <div style={{ transform: 'scale(0.5)', transformOrigin: 'left top' }}>
           <KeyboardProgressBar
             value={progress}
