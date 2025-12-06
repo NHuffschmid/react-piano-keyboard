@@ -7,6 +7,7 @@ interface KeyboardProgressBarProps {
   from?: number;        // Start-Note (default: 36)
   to?: number;          // End-Note (default: 96)
   progressColor?: string; // Farbe für gedrückte Tasten (default: '#4CAF50')
+  showPercentage?: boolean; // Zeige Prozentanzeige (default: false)
   className?: string;   // CSS-Klasse
   style?: React.CSSProperties; // Inline-Styles
 }
@@ -17,6 +18,7 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
   from = 36,
   to = 96,
   progressColor = '#4CAF50',
+  showPercentage = false,
   className,
   style
 }) => {
@@ -83,25 +85,27 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
         onKeyUp={undefined}
       />
       
-      {/* Optional: Progress-Text Overlay */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
-          color: 'white',
-          padding: '4px 8px',
-          borderRadius: '4px',
-          fontSize: '14px',
-          fontWeight: 'bold',
-          pointerEvents: 'none',
-          zIndex: 10
-        }}
-      >
-        {Math.round((value / max) * 100)}%
-      </div>
+      {/* Conditional: Progress-Text Overlay */}
+      {showPercentage && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+            color: 'white',
+            padding: '4px 8px',
+            borderRadius: '4px',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            pointerEvents: 'none',
+            zIndex: 10
+          }}
+        >
+          {Math.round((value / max) * 100)}%
+        </div>
+      )}
     </div>
   );
 };

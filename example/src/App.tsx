@@ -78,13 +78,13 @@ function App() {
 
       <div>
         <h2>Progress Bar Demo</h2>
-        <p>Progress: {progress.toFixed(1)}%</p>
         <div style={{ transform: 'scale(0.5)', transformOrigin: 'left top' }}>
           <KeyboardProgressBar
             value={progress}
             from={36}
             to={96}
-            progressColor="green"
+            progressColor="forestgreen"
+            showPercentage={true}
           />
         </div>
       </div>
