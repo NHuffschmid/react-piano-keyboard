@@ -26,27 +26,23 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
   const pressedNotes = useMemo(() => {
     const notes: Set<number> = new Set();
     
-    // Sammle alle weißen Tasten im Bereich
-    const whiteNotes: number[] = [];
-    const isWhiteKey = (note: number) =>
-      [0, 2, 4, 5, 7, 9, 11].includes(note % 12);
+    // Sammle ALLE Tasten im Bereich (weiße und schwarze)
+    const allNotes: number[] = [];
     
     for (let note = from; note <= to; note++) {
-      if (isWhiteKey(note)) {
-        whiteNotes.push(note);
-      }
+      allNotes.push(note);
     }
     
     // Berechne Fortschritt als Prozentsatz
     const progress = Math.max(0, Math.min(100, (value / max) * 100));
     
-    // Bestimme Anzahl der zu aktivierenden weißen Tasten
-    const totalWhiteKeys = whiteNotes.length;
-    const keysToActivate = Math.round((progress / 100) * totalWhiteKeys);
+    // Bestimme Anzahl der zu aktivierenden Tasten
+    const totalKeys = allNotes.length;
+    const keysToActivate = Math.round((progress / 100) * totalKeys);
     
-    // Aktiviere die ersten N weißen Tasten
-    for (let i = 0; i < keysToActivate && i < whiteNotes.length; i++) {
-      notes.add(whiteNotes[i]);
+    // Aktiviere die ersten N Tasten (chromatisch)
+    for (let i = 0; i < keysToActivate && i < allNotes.length; i++) {
+      notes.add(allNotes[i]);
     }
     
     return notes;
