@@ -48,7 +48,7 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
     return notes;
   }, [percentage, from, to]);
 
-  // Custom setKeyPressed function that overrides the progress state
+  // Ref to Keyboard component for programmatic control of key states
   const keyboardRef = React.useRef<KeyboardRef>(null);
   
   React.useEffect(() => {
