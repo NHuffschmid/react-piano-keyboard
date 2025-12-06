@@ -20,6 +20,11 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
   showPercentage = false,
   style
 }) => {
+  // Calculate clamped percentage (0-100)
+  const percentage = useMemo(() => {
+    return Math.max(0, Math.min(100, (value / max) * 100));
+  }, [value, max]);
+
   // Calculate which keys should be displayed as pressed
   const pressedNotes = useMemo(() => {
     const notes: Set<number> = new Set();
@@ -31,12 +36,9 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
       allNotes.push(note);
     }
     
-    // Calculate progress as percentage
-    const progress = Math.max(0, Math.min(100, (value / max) * 100));
-    
     // Determine number of keys to activate
     const totalKeys = allNotes.length;
-    const keysToActivate = Math.round((progress / 100) * totalKeys);
+    const keysToActivate = Math.round((percentage / 100) * totalKeys);
     
     // Activate the first N keys (chromatically)
     for (let i = 0; i < keysToActivate && i < allNotes.length; i++) {
@@ -44,7 +46,7 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
     }
     
     return notes;
-  }, [value, max, from, to]);
+  }, [percentage, from, to]);
 
   // Custom setKeyPressed function that overrides the progress state
   const keyboardRef = React.useRef<KeyboardRef>(null);
@@ -96,7 +98,7 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
             zIndex: 10
           }}
         >
-          {Math.round((value / max) * 100)}%
+          {Math.round(percentage)}%
         </div>
       )}
     </div>
