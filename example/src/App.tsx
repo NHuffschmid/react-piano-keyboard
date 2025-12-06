@@ -92,7 +92,7 @@ function App() {
             value={progress}
             from={36}
             to={96}
-            progressColor="forestgreen"
+            color="forestgreen"
             showPercentage={true}
           />
         </div>

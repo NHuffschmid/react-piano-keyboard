@@ -6,9 +6,8 @@ interface KeyboardProgressBarProps {
   max?: number;         // Maximum value (default: 100)
   from?: number;        // Start note (default: 36)
   to?: number;          // End note (default: 96)
-  progressColor?: string; // Color for pressed keys (default: '#4CAF50')
+  color?: string;       // Color for pressed keys (default: '#4CAF50')
   showPercentage?: boolean; // Show percentage overlay (default: false)
-  className?: string;   // CSS class
   style?: React.CSSProperties; // Inline styles
 }
 
@@ -17,9 +16,8 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
   max = 100,
   from = 36,
   to = 96,
-  progressColor = '#4CAF50',
+  color = '#4CAF50',
   showPercentage = false,
-  className,
   style
 }) => {
   // Calculate which keys should be displayed as pressed
@@ -65,7 +63,6 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
 
   return (
     <div 
-      className={className}
       style={{
         ...style,
         position: 'relative'
@@ -75,8 +72,7 @@ const KeyboardProgressBar: React.FC<KeyboardProgressBarProps> = ({
         ref={keyboardRef}
         from={from}
         to={to}
-        pressedColor={progressColor}
-        // No event handlers - ProgressBar is read-only
+        pressedColor={color}
         onKeyDown={undefined}
         onKeyUp={undefined}
       />
