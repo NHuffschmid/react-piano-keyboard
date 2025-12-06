@@ -14,14 +14,19 @@ function App() {
     console.log(`Key up: ${note}`);
   };
 
-  // Progress animation from 0% to 100% over 10 seconds
+  // Progress animation with easing: starts slow, accelerates strongly
   useEffect(() => {
     const startTime = Date.now();
     const duration = 10000; // 10 seconds
 
     const updateProgress = () => {
       const elapsed = Date.now() - startTime;
-      const newProgress = Math.min((elapsed / duration) * 100, 100);
+      const t = Math.min(elapsed / duration, 1); // normalized time (0-1)
+      
+      // Mixed easing: starts linear, then accelerates
+      const easedT = 0.3 * t + 0.7 * (t * t); // 30% linear + 70% quadratic
+      const newProgress = easedT * 100;
+      
       setProgress(newProgress);
       
       if (newProgress < 100) {
@@ -35,28 +40,32 @@ function App() {
   useEffect(() => {
     const from = 21;
     const to = 108;
-    const maxDuration = 200;
-    const minDuration = 30;
+    const totalDuration = 10000; // 10 seconds - same as progress animation
     const keyCount = to - from + 1;
 
-    const durations = Array.from({ length: keyCount }, (_, i) =>
-      maxDuration - ((maxDuration - minDuration) * i) / (keyCount - 1)
-    );
-
-    let time = 0;
+    // Schedule each key press based on the eased timing curve
     for (let i = 0; i < keyCount; i++) {
       const note = from + i;
+      const keyProgress = i / (keyCount - 1); // 0 to 1
+      
+      // Apply reverse mixed easing: more even distribution at start
+      const linearPart = 0.3 * keyProgress;
+      const quadPart = 0.7 * Math.sqrt(keyProgress);
+      const easedProgress = linearPart + quadPart;
+      const keyTime = easedProgress * totalDuration;
+      
       setTimeout(() => {
         if (keyboardRef.current) {
           keyboardRef.current.setKeyPressed(note, 127);
+          
+          // Hold key for a short duration
+          setTimeout(() => {
+            if (keyboardRef.current) {
+              keyboardRef.current.setKeyPressed(note, 0);
+            }
+          }, 150);
         }
-        setTimeout(() => {
-          if (keyboardRef.current) {
-            keyboardRef.current.setKeyPressed(note, 0);
-          }
-        }, durations[i]);
-      }, time);
-      time += durations[i];
+      }, keyTime);
     }
   }, []);
 
