@@ -36,3 +36,35 @@
   z-index: 2;
   top: 0;
 }
+
+.key-label {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1.2;
+  gap: 1px;
+}
+
+.key-label--white {
+  color: #555;
+}
+
+.key-label--black {
+  color: #ddd;
+}
+
+.key-label__primary {
+  display: block;
+  font-weight: 500;
+}
+
+.key-label__secondary {
+  display: block;
+  opacity: 0.75;
+}
