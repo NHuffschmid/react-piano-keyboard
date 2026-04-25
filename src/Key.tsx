@@ -36,9 +36,9 @@ const Key: React.FC<KeyProps> = ({
 
   const fontSize = keyWidth
     ? isWhite
-      ? Math.max(7, Math.min(13, keyWidth * 0.35))
-      : Math.max(6, Math.min(10, keyWidth * 0.24))
-    : isWhite ? 10 : 8;
+      ? Math.max(10, Math.min(22, keyWidth * 0.70))
+      : Math.max(10, Math.min(17, keyWidth * 0.85))
+    : isWhite ? 14 : 14;
 
   const handleMouseDown = () => {
     mousePressed.current = true;
@@ -72,9 +72,17 @@ const Key: React.FC<KeyProps> = ({
           className={isWhite ? 'key-label key-label--white' : 'key-label key-label--black'}
           style={{ fontSize }}
         >
-          <span className="key-label__primary">{label.primary}</span>
-          {label.secondary && (
-            <span className="key-label__secondary">{label.secondary}</span>
+          {isWhite ? (
+            <>
+              <span className="key-label__primary">{label.primary}</span>
+              {label.secondary && (
+                <span className="key-label__secondary">{label.secondary}</span>
+              )}
+            </>
+          ) : (
+            <span className="key-label__primary">
+              {label.secondary ? `${label.primary} / ${label.secondary}` : label.primary}
+            </span>
           )}
         </span>
       )}
