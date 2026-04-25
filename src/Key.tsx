@@ -67,7 +67,7 @@ const Key: React.FC<KeyProps> = ({
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
     >
-      {label && (
+      {label && isPressed && (
         <span
           className={isWhite ? 'key-label key-label--white' : 'key-label key-label--black'}
           style={{ fontSize }}
