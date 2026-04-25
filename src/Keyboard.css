@@ -47,19 +47,27 @@
   user-select: none;
 }
 
-/* White keys: horizontal text, anchored at the bottom */
+/* White keys: vertical text, anchored at the bottom, horizontally centered */
 .key-label--white {
+  top: 0;
   bottom: 5px;
+  height: auto;
   flex-direction: column;
   justify-content: flex-end;
-  line-height: 1.3;
-  gap: 1px;
+  align-items: center;
+}
+
+.key-label--white .key-label__primary {
+  writing-mode: vertical-rl;
+  letter-spacing: 0.02em;
+  padding-left: 2px;
 }
 
 /* Black keys: vertical text using writing-mode, filling the key height */
 .key-label--black {
   top: 4px;
   bottom: 4px;
+  left: 2px;
   height: auto;
   width: 100%;
   writing-mode: vertical-rl;
