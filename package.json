@@ -6,6 +6,7 @@
     "url": "https://github.com/NHuffschmid/react-piano-keyboard"
   },
   "license": "MIT",
+  "type": "module",
   "main": "Keyboard.js",
   "scripts": {
     "test": "vitest run",
