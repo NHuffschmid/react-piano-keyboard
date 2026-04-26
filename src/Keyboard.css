@@ -68,7 +68,7 @@
 .key-label--black {
   top: 4px;
   bottom: 4px;
-  left: 2px;
+  left: 0;
   height: auto;
   width: 100%;
   writing-mode: vertical-rl;
