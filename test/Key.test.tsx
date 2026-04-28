@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import Key from '../src/Key';
+import type { ChromaticNoteName } from '../src/noteNames';
 
 describe('Key component', () => {
   it('renders a white key', () => {
@@ -31,18 +31,18 @@ describe('Key component', () => {
     const { container } = render(
       <Key note={60} isPressed={false} setPressed={setPressed} />
     );
-    fireEvent.mouseDown(container.firstChild);
+    fireEvent.mouseDown(container.firstChild!);
     expect(setPressed).toHaveBeenCalledWith(true);
-    fireEvent.mouseUp(container.firstChild);
+    fireEvent.mouseUp(container.firstChild!);
     expect(setPressed).toHaveBeenCalledWith(false);
-    fireEvent.mouseLeave(container.firstChild);
+    fireEvent.mouseLeave(container.firstChild!);
     expect(setPressed).toHaveBeenCalledWith(false);
   });
 });
 
 describe('Key label', () => {
   it('shows no label when key is not pressed, even if label prop is set', () => {
-    const label = { primary: 'C4' };
+    const label: ChromaticNoteName = { primary: 'C4' };
     const { container } = render(
       <Key note={60} isPressed={false} setPressed={() => {}} label={label} />
     );
@@ -50,12 +50,12 @@ describe('Key label', () => {
   });
 
   it('shows label when key is pressed and label prop is set', () => {
-    const label = { primary: 'C4' };
+    const label: ChromaticNoteName = { primary: 'C4' };
     const { container } = render(
       <Key note={60} isPressed={true} setPressed={() => {}} label={label} />
     );
     expect(container.querySelector('.key-label')).not.toBeNull();
-    expect(container.querySelector('.key-label__primary').textContent).toBe('C4');
+    expect(container.querySelector('.key-label__primary')!.textContent).toBe('C4');
   });
 
   it('shows no label when label prop is not set, even when pressed', () => {
@@ -66,23 +66,23 @@ describe('Key label', () => {
   });
 
   it('shows "primary / secondary" when secondary is present', () => {
-    const label = { primary: 'C#4', secondary: 'D♭4' };
+    const label: ChromaticNoteName = { primary: 'C#4', secondary: 'D♭4' };
     const { container } = render(
       <Key note={61} isPressed={true} setPressed={() => {}} label={label} />
     );
-    expect(container.querySelector('.key-label__primary').textContent).toBe('C#4 / D♭4');
+    expect(container.querySelector('.key-label__primary')!.textContent).toBe('C#4 / D♭4');
   });
 
   it('shows only primary when secondary is absent', () => {
-    const label = { primary: 'C4' };
+    const label: ChromaticNoteName = { primary: 'C4' };
     const { container } = render(
       <Key note={60} isPressed={true} setPressed={() => {}} label={label} />
     );
-    expect(container.querySelector('.key-label__primary').textContent).toBe('C4');
+    expect(container.querySelector('.key-label__primary')!.textContent).toBe('C4');
   });
 
   it('applies key-label--white class for a white key', () => {
-    const label = { primary: 'C4' };
+    const label: ChromaticNoteName = { primary: 'C4' };
     const { container } = render(
       <Key note={60} isPressed={true} setPressed={() => {}} label={label} />
     );
@@ -90,7 +90,7 @@ describe('Key label', () => {
   });
 
   it('applies key-label--black class for a black key', () => {
-    const label = { primary: 'C#4', secondary: 'D♭4' };
+    const label: ChromaticNoteName = { primary: 'C#4', secondary: 'D♭4' };
     const { container } = render(
       <Key note={61} isPressed={true} setPressed={() => {}} label={label} />
     );
