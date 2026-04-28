@@ -1,5 +1,8 @@
 # react-piano-keyboard
 
+![CI](https://github.com/NHuffschmid/react-piano-keyboard/actions/workflows/ci.yml/badge.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+
 A modular, customizable, and accessible React component for rendering a realistic piano keyboard. Supports configurable key range, pressed key color, and full keyboard control. Suitable for use in music education, MIDI tools, and interactive web apps.
 
 ![Screenshot](screenshot.png)
