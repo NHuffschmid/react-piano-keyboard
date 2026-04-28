@@ -19,13 +19,61 @@ function isWhiteKey(note: number): boolean {
 }
 
 /** Returns '#000' for light backgrounds, '#fff' for dark ones (WCAG luminance). */
-function contrastColor(hex: string): string {
-  const clean = hex.replace('#', '');
-  if (clean.length !== 6) return '#fff';
-  const r = parseInt(clean.slice(0, 2), 16) / 255;
-  const g = parseInt(clean.slice(2, 4), 16) / 255;
-  const b = parseInt(clean.slice(4, 6), 16) / 255;
-  const toLinear = (c: number) => c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+function parseCssColor(color: string): { r: number; g: number; b: number } | null {
+  const value = color.trim();
+
+  const shortHexMatch = value.match(/^#([\da-f]{3})$/i);
+  if (shortHexMatch) {
+    const [r, g, b] = shortHexMatch[1].split('').map((c) => parseInt(c + c, 16));
+    return { r, g, b };
+  }
+
+  const fullHexMatch = value.match(/^#([\da-f]{6})$/i);
+  if (fullHexMatch) {
+    const hex = fullHexMatch[1];
+    return {
+      r: parseInt(hex.slice(0, 2), 16),
+      g: parseInt(hex.slice(2, 4), 16),
+      b: parseInt(hex.slice(4, 6), 16),
+    };
+  }
+
+  const rgbMatch = value.match(
+    /^rgba?\(\s*([+-]?\d*\.?\d+)%?\s*,\s*([+-]?\d*\.?\d+)%?\s*,\s*([+-]?\d*\.?\d+)%?(?:\s*,\s*[+-]?\d*\.?\d+\s*)?\)$/i
+  );
+  if (rgbMatch) {
+    const r = Math.max(0, Math.min(255, Number(rgbMatch[1])));
+    const g = Math.max(0, Math.min(255, Number(rgbMatch[2])));
+    const b = Math.max(0, Math.min(255, Number(rgbMatch[3])));
+    return { r, g, b };
+  }
+
+  if (typeof document !== 'undefined') {
+    const el = document.createElement('span');
+    el.style.color = '';
+    el.style.color = value;
+
+    if (el.style.color) {
+      document.body.appendChild(el);
+      const resolved = getComputedStyle(el).color;
+      document.body.removeChild(el);
+      return parseCssColor(resolved);
+    }
+  }
+
+  return null;
+}
+
+function contrastColor(color: string): string {
+  const rgb = parseCssColor(color);
+  if (!rgb) return '#fff';
+
+  const toLinear = (c: number) =>
+    c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+
+  const r = rgb.r / 255;
+  const g = rgb.g / 255;
+  const b = rgb.b / 255;
   const L = 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
   return L > 0.179 ? '#000' : '#fff';
 }
