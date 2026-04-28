@@ -14,7 +14,7 @@ interface KeyboardProps {
   pressedColor?: string;
   onKeyDown?: (note: number) => void;
   onKeyUp?: (note: number) => void;
-  /** Optional language for key labels. When provided, all keys are labeled.
+  /** Optional language used for key labels when they are displayed.
    *  Supported: 'de' | 'en' | 'fr' | 'it' | 'es' | 'pt'. Falls back to 'en'. */
   language?: string;
 }
