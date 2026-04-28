@@ -83,9 +83,10 @@ const Key: React.FC<KeyProps> = ({
           className={isWhite ? 'key-label key-label--white' : 'key-label key-label--black'}
           style={{ fontSize, color: contrastColor(pressedColor) }}
         >
-          <span className="key-label__primary">
-            {label.secondary ? `${label.primary} / ${label.secondary}` : label.primary}
-          </span>
+          <span className="key-label__primary">{label.primary}</span>
+          {label.secondary && (
+            <span className="key-label__secondary">/ {label.secondary}</span>
+          )}
         </span>
       )}
     </div>

@@ -65,12 +65,13 @@ describe('Key label', () => {
     expect(container.querySelector('.key-label')).toBeNull();
   });
 
-  it('shows "primary / secondary" when secondary is present', () => {
+  it('shows primary and secondary in separate elements when secondary is present', () => {
     const label: ChromaticNoteName = { primary: 'C#4', secondary: 'D♭4' };
     const { container } = render(
       <Key note={61} isPressed={true} setPressed={() => {}} label={label} />
     );
-    expect(container.querySelector('.key-label__primary')!.textContent).toBe('C#4 / D♭4');
+    expect(container.querySelector('.key-label__primary')!.textContent).toBe('C#4');
+    expect(container.querySelector('.key-label__secondary')!.textContent).toBe('/ D♭4');
   });
 
   it('shows only primary when secondary is absent', () => {

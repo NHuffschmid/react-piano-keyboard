@@ -123,14 +123,16 @@ describe('Keyboard language / key labels', () => {
     const { container } = render(<Keyboard from={60} to={62} language="en" />);
     const blackKey = container.querySelector('.ebony')!;
     fireEvent.mouseDown(blackKey);
-    expect(container.querySelector('.key-label__primary')!.textContent).toBe('C#4 / D♭4');
+    expect(container.querySelector('.key-label__primary')!.textContent).toBe('C#4');
+    expect(container.querySelector('.key-label__secondary')!.textContent).toBe('/ D♭4');
   });
 
   it('shows correct German label for black key Cis4 / Des4 (MIDI 61)', () => {
     const { container } = render(<Keyboard from={60} to={62} language="de" />);
     const blackKey = container.querySelector('.ebony')!;
     fireEvent.mouseDown(blackKey);
-    expect(container.querySelector('.key-label__primary')!.textContent).toBe('Cis4 / Des4');
+    expect(container.querySelector('.key-label__primary')!.textContent).toBe('Cis4');
+    expect(container.querySelector('.key-label__secondary')!.textContent).toBe('/ Des4');
   });
 
   it('hides label again after key is released', () => {
