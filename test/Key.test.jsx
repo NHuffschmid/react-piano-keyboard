@@ -39,3 +39,61 @@ describe('Key component', () => {
     expect(setPressed).toHaveBeenCalledWith(false);
   });
 });
+
+describe('Key label', () => {
+  it('shows no label when key is not pressed, even if label prop is set', () => {
+    const label = { primary: 'C4' };
+    const { container } = render(
+      <Key note={60} isPressed={false} setPressed={() => {}} label={label} />
+    );
+    expect(container.querySelector('.key-label')).toBeNull();
+  });
+
+  it('shows label when key is pressed and label prop is set', () => {
+    const label = { primary: 'C4' };
+    const { container } = render(
+      <Key note={60} isPressed={true} setPressed={() => {}} label={label} />
+    );
+    expect(container.querySelector('.key-label')).not.toBeNull();
+    expect(container.querySelector('.key-label__primary').textContent).toBe('C4');
+  });
+
+  it('shows no label when label prop is not set, even when pressed', () => {
+    const { container } = render(
+      <Key note={60} isPressed={true} setPressed={() => {}} />
+    );
+    expect(container.querySelector('.key-label')).toBeNull();
+  });
+
+  it('shows "primary / secondary" when secondary is present', () => {
+    const label = { primary: 'C#4', secondary: 'D♭4' };
+    const { container } = render(
+      <Key note={61} isPressed={true} setPressed={() => {}} label={label} />
+    );
+    expect(container.querySelector('.key-label__primary').textContent).toBe('C#4 / D♭4');
+  });
+
+  it('shows only primary when secondary is absent', () => {
+    const label = { primary: 'C4' };
+    const { container } = render(
+      <Key note={60} isPressed={true} setPressed={() => {}} label={label} />
+    );
+    expect(container.querySelector('.key-label__primary').textContent).toBe('C4');
+  });
+
+  it('applies key-label--white class for a white key', () => {
+    const label = { primary: 'C4' };
+    const { container } = render(
+      <Key note={60} isPressed={true} setPressed={() => {}} label={label} />
+    );
+    expect(container.querySelector('.key-label--white')).not.toBeNull();
+  });
+
+  it('applies key-label--black class for a black key', () => {
+    const label = { primary: 'C#4', secondary: 'D♭4' };
+    const { container } = render(
+      <Key note={61} isPressed={true} setPressed={() => {}} label={label} />
+    );
+    expect(container.querySelector('.key-label--black')).not.toBeNull();
+  });
+});

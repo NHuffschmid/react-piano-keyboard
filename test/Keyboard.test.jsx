@@ -81,3 +81,65 @@ describe('Keyboard pressedColor="Skrjabin"', () => {
     expect(bg.replace(/\s/g, '').toLowerCase()).toMatch(/rgb\(255,0,0\)|#ff0000/);
   });
 });
+
+
+describe('Keyboard language / key labels', () => {
+  it('shows no labels when language prop is absent', () => {
+    const { container } = render(<Keyboard from={60} to={62} />);
+    const whiteKey = container.querySelector('.ivory');
+    fireEvent.mouseDown(whiteKey);
+    expect(container.querySelector('.key-label')).toBeNull();
+  });
+
+  it('shows label on pressed key when language="en"', () => {
+    const { container } = render(<Keyboard from={60} to={62} language="en" />);
+    const whiteKey = container.querySelector('.ivory');
+    fireEvent.mouseDown(whiteKey);
+    expect(container.querySelector('.key-label')).not.toBeNull();
+  });
+
+  it('shows correct English note label for C4 (MIDI 60)', () => {
+    const { container } = render(<Keyboard from={60} to={62} language="en" />);
+    const whiteKey = container.querySelector('.ivory');
+    fireEvent.mouseDown(whiteKey);
+    expect(container.querySelector('.key-label__primary').textContent).toBe('C4');
+  });
+
+  it('shows correct German note label for C4 (MIDI 60)', () => {
+    const { container } = render(<Keyboard from={60} to={62} language="de" />);
+    const whiteKey = container.querySelector('.ivory');
+    fireEvent.mouseDown(whiteKey);
+    expect(container.querySelector('.key-label__primary').textContent).toBe('C4');
+  });
+
+  it('falls back to English for unsupported language', () => {
+    const { container } = render(<Keyboard from={60} to={62} language="xx" />);
+    const whiteKey = container.querySelector('.ivory');
+    fireEvent.mouseDown(whiteKey);
+    expect(container.querySelector('.key-label')).not.toBeNull();
+    expect(container.querySelector('.key-label__primary').textContent).toBe('C4');
+  });
+
+  it('shows correct English label for black key C#4 / D♭4 (MIDI 61)', () => {
+    const { container } = render(<Keyboard from={60} to={62} language="en" />);
+    const blackKey = container.querySelector('.ebony');
+    fireEvent.mouseDown(blackKey);
+    expect(container.querySelector('.key-label__primary').textContent).toBe('C#4 / D♭4');
+  });
+
+  it('shows correct German label for black key Cis4 / Des4 (MIDI 61)', () => {
+    const { container } = render(<Keyboard from={60} to={62} language="de" />);
+    const blackKey = container.querySelector('.ebony');
+    fireEvent.mouseDown(blackKey);
+    expect(container.querySelector('.key-label__primary').textContent).toBe('Cis4 / Des4');
+  });
+
+  it('hides label again after key is released', () => {
+    const { container } = render(<Keyboard from={60} to={62} language="en" />);
+    const whiteKey = container.querySelector('.ivory');
+    fireEvent.mouseDown(whiteKey);
+    expect(container.querySelector('.key-label')).not.toBeNull();
+    fireEvent.mouseUp(whiteKey);
+    expect(container.querySelector('.key-label')).toBeNull();
+  });
+});
