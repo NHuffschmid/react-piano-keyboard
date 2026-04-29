@@ -1,6 +1,7 @@
 import React, { useState, useImperativeHandle, forwardRef, useRef, useEffect } from 'react';
 import './Keyboard.css';
 import Key from './Key';
+import { resolveLanguage, getNoteLabel } from './noteNames';
 
 export interface KeyboardRef {
   setKeyPressed: (note: number, velocity: number) => void;
@@ -13,6 +14,9 @@ interface KeyboardProps {
   pressedColor?: string;
   onKeyDown?: (note: number) => void;
   onKeyUp?: (note: number) => void;
+  /** Optional language used for key labels when they are displayed.
+   *  Supported: 'de' | 'en' | 'fr' | 'it' | 'es' | 'pt'. Falls back to 'en'. */
+  language?: string;
 }
 
 // Skrjabin's synesthetic color scale
@@ -38,7 +42,7 @@ export const getSkrjabinColor = (note: number): string => {
 };
 
 const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
-  ({ from = 36, to = 96, pressedColor = '#888', onKeyDown, onKeyUp }, ref) => {
+  ({ from = 36, to = 96, pressedColor = '#888', onKeyDown, onKeyUp, language }, ref) => {
     if (from < 12 || to > 120 || to <= from) {
       throw new Error(
         `Invalid Keyboard range: 'from' must be >= 12, 'to' must be <= 120, and 'to' must be greater than 'from'. Received from=${from}, to=${to}`
@@ -87,6 +91,7 @@ const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
     }, []);
 
     const widgetWidth = containerWidth || 800;
+    const lang = language !== undefined ? resolveLanguage(language) : undefined;
     const isWhiteKey = (note: number) =>
       [0, 2, 4, 5, 7, 9, 11].includes(note % 12);
 
@@ -147,6 +152,8 @@ const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
               zIndex: 2
             }}
             pressedColor={getPressedColor(nextNote)}
+            keyWidth={keyWidth * 0.6}
+            label={lang ? getNoteLabel(nextNote, lang) : undefined}
           />
         );
       }
@@ -171,6 +178,8 @@ const Keyboard = forwardRef<KeyboardRef, KeyboardProps>(
             }}
             style={{ width: '100%', height: '100%' }}
             pressedColor={getPressedColor(note)}
+            keyWidth={keyWidth}
+            label={lang ? getNoteLabel(note, lang) : undefined}
           />
           {blackKey}
         </div>

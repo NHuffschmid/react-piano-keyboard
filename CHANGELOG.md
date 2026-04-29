@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [0.9.4]
+
+### Features
+- Added key labels
+
 ## [0.9.3]
 
 ### Features

@@ -36,3 +36,59 @@
   z-index: 2;
   top: 0;
 }
+
+.key-label {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* White keys: vertical text, anchored at the bottom, horizontally centered */
+.key-label--white {
+  top: 0;
+  bottom: 5px;
+  height: auto;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.key-label--white .key-label__primary {
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+  letter-spacing: 0.02em;
+  padding-left: 2px;
+}
+
+/* Black keys: vertical text using writing-mode, filling the key height */
+.key-label--black {
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  height: auto;
+  width: 100%;
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2px;
+  letter-spacing: 0.02em;
+}
+
+.key-label__primary {
+  display: block;
+  font-weight: 600;
+}
+
+.key-label__secondary {
+  display: block;
+  opacity: 0.70;
+}
+
+.key-label--black .key-label__secondary {
+  opacity: 1;
+}
