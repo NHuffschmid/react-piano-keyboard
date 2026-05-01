@@ -18,7 +18,7 @@
   display: inline-block;
   box-sizing: border-box;
   cursor: pointer;
-  transition: background 0.1s;
+  transition: box-shadow 0.1s;
   position: relative;
   z-index: 1;
 }
@@ -103,7 +103,7 @@
   border-top: none;
   border-radius: 0 0 10px 10px;
   box-shadow: 2px 6px 12px rgba(0, 0, 0, 0.45), inset 0 -4px 8px rgba(0, 0, 0, 0.1);
-  transition: background 0.08s, box-shadow 0.08s, transform 0.08s;
+  transition: box-shadow 0.08s, transform 0.08s;
 }
 
 .ivory--realistic:hover {
