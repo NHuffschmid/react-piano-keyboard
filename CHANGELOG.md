@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [0.9.x]
+
+### Features
+- Improved ebony/ivory layout
+
 ## [0.9.4]
 
 ### Features
