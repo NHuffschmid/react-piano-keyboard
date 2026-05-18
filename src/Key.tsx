@@ -90,9 +90,11 @@ const Key: React.FC<KeyProps> = ({
   const isWhite = isWhiteKey(note);
   const mousePressed = useRef<boolean>(false);
 
-  const bgStyle: React.CSSProperties = {
-    background: isPressed ? pressedColor : isWhite ? 'white' : 'black'
-  };
+  // When not pressed, let the CSS theme class supply the background gradient.
+  // When pressed, use pressedColor inline so it overrides the gradient and border.
+  const bgStyle: React.CSSProperties = isPressed
+    ? { background: pressedColor, borderColor: pressedColor }
+    : {};
 
   const fontSize = keyWidth
     ? isWhite
@@ -118,10 +120,20 @@ const Key: React.FC<KeyProps> = ({
     }
   };
 
+  const themeClass = isWhite ? ' ivory--realistic' : ' ebony--realistic';
+
+  // Scale border-radius proportionally to key width so narrow keys stay flat.
+  // When keyWidth is not supplied, leave borderRadius unset here and fall back
+  // to the CSS-defined default from .ivory--realistic.
+  const radiusStyle: React.CSSProperties =
+    (isWhite && keyWidth !== undefined)
+      ? { borderRadius: `0 0 ${Math.round(keyWidth * 0.09)}px ${Math.round(keyWidth * 0.09)}px` }
+      : {};
+
   return (
     <div
-      className={isWhite ? 'ivory' : 'ebony'}
-      style={{ ...style, ...bgStyle }}
+      className={`${isWhite ? 'ivory' : 'ebony'}${themeClass}`}
+      style={{ ...style, ...bgStyle, ...radiusStyle }}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}

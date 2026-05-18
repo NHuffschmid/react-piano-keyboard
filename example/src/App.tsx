@@ -63,7 +63,7 @@ function App() {
             if (keyboardRef.current) {
               keyboardRef.current.setKeyPressed(note, 0);
             }
-          }, 150);
+          }, 250);
         }
       }, keyTime);
     }
@@ -79,7 +79,7 @@ function App() {
           ref={keyboardRef}
           from={21}
           to={108}
-          pressedColor="gray"
+          pressedColor="red"
           onKeyDown={handleKeyDown}
           onKeyUp={handleKeyUp}
         />
