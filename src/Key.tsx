@@ -123,8 +123,8 @@ const Key: React.FC<KeyProps> = ({
   const themeClass = isWhite ? ' ivory--realistic' : ' ebony--realistic';
 
   // Scale border-radius proportionally to key width so narrow keys stay flat.
-  // keyWidth is only set for Keyboard component keys, not HomeNav buttons
-  // (which rely on the 10px CSS default from .ivory--realistic).
+  // When keyWidth is not supplied, leave borderRadius unset here and fall back
+  // to the CSS-defined default from .ivory--realistic.
   const radiusStyle: React.CSSProperties =
     (isWhite && keyWidth !== undefined)
       ? { borderRadius: `0 0 ${Math.round(keyWidth * 0.09)}px ${Math.round(keyWidth * 0.09)}px` }

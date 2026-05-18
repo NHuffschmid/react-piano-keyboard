@@ -94,8 +94,7 @@
 }
 
 /* ── Realistic piano-key visual theme ────────────────────────────────────── */
-/* Apply these classes alongside any layout classes to get a realistic look.  */
-/* Exported as IVORY_REALISTIC_CLASS / EBONY_REALISTIC_CLASS from index.ts.  */
+/* Always applied by Key.tsx — this is the default and only visual theme.    */
 
 .ivory--realistic {
   background: linear-gradient(175deg, #f5f0e8 0%, #fffef8 60%, #e8dfc8 100%);
